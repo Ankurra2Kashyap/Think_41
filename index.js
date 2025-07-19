@@ -1,15 +1,17 @@
-const express = require('express');
-const app = express();
-const PORT = 3000;
+import express from 'express';
+import mongoose from 'mongoose';
+import cellRoutes from './routes/cells.js';
 
- 
+const app = express();
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello, Express!');
+mongoose.connect('mongodb://localhost:27017/spreadsheet', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
- 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.use('/spreadsheets', cellRoutes);
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
 });
